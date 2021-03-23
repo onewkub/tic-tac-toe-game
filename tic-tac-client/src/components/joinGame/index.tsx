@@ -1,27 +1,22 @@
-import { useState } from 'react'
-import { ClimbingBoxLoader } from 'react-spinners'
-import Clipboard from 'clipboard'
-import './styles.scss'
 import BackNavigator from 'components/backNavigator'
-
+import React, { useState } from 'react'
+import { ClimbingBoxLoader } from 'react-spinners'
+import './styles.scss'
 interface IForm {
   name: string
-  dim: number
+  inviteCode: string
 }
-new Clipboard('.copy-clipboard-btn')
 
-function CreateGame() {
-  const [form, setForm] = useState<IForm>({ name: 'player', dim: 3 })
+function JoinGame() {
+  const [form, setForm] = useState<IForm>({ name: 'player', inviteCode: '' })
 
-  const [hasCreate, setHasCreate] = useState<boolean>(false)
-
-  const [inviteCode] = useState<string>('asdgasfg')
+  const [hasJoin, setHasJoin] = useState<boolean>(false)
 
   const handleOnChange = (value: any, type: string) => {
     switch (type) {
       case 'name':
         return setForm((prev) => ({ ...prev, name: value }))
-      case 'dim':
+      case 'inviteCode':
         return setForm((prev) => ({ ...prev, dim: value }))
       default:
         return
@@ -30,17 +25,15 @@ function CreateGame() {
 
   const handleOnSumbit = () => {
     console.log(form)
-    setHasCreate(true)
+    setHasJoin(true)
   }
-
-  const handleOnCopyToClipboard = () => {}
 
   return (
     <>
       <BackNavigator />
-      {!hasCreate && (
-        <div className="create-game-panel">
-          <h3>Create Game</h3>
+      {!hasJoin && (
+        <div className="join-game-panel">
+          <h3>Join Game</h3>
           <div className="txt-input">
             <label>Player Name</label>
             <input
@@ -51,21 +44,20 @@ function CreateGame() {
             />
           </div>
           <div className="txt-input">
-            <label>Table Dimension</label>
+            <label>Invite Code</label>
             <input
-              value={form.dim}
-              onChange={(e) => handleOnChange(e.target.value, 'dim')}
-              type="number"
+              value={form.inviteCode}
+              onChange={(e) => handleOnChange(e.target.value, 'inviteCode')}
               placeholder="Please insert table dimension"
             />
           </div>
-          <button onClick={handleOnSumbit} className="create-btn">
-            Create ROOM
+          <button onClick={handleOnSumbit} className="join-btn">
+            JOIN ROOM
           </button>
         </div>
       )}
-      {hasCreate && (
-        <div className="create-game-panel-invite-code">
+      {hasJoin && (
+        <div className="waiting-room">
           <div
             style={{
               height: 300,
@@ -77,24 +69,10 @@ function CreateGame() {
             <ClimbingBoxLoader color="white" size={30} />
           </div>
           <h3>Waiting for your opponent</h3>
-          <div className="invite-code-field">
-            <input
-              onClick={handleOnCopyToClipboard}
-              id="invite-code"
-              readOnly
-              value={inviteCode}
-            />
-            <div
-              className="copy-clipboard-btn"
-              data-clipboard-text={inviteCode}
-            >
-              Copy
-            </div>
-          </div>
         </div>
       )}
     </>
   )
 }
 
-export default CreateGame
+export default JoinGame

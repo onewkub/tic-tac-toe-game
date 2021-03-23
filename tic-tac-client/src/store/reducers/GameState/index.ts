@@ -22,7 +22,7 @@ export enum EGameState {
 
 const initialState = {
   loading: false,
-  game_state: EGameState.about,
+  game_state: EGameState.main_menu,
   error: null,
 }
 

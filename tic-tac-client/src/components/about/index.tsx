@@ -7,10 +7,10 @@ function About() {
     <div className="about">
       <BackNavigator />
       <h3>About me</h3>
-      <img style={{ width: 120, margin: '0 auto' }} src={githubLogo} />
+      <img alt="gh-logo" style={{ width: 120, margin: '0 auto' }} src={githubLogo} />
       <a href="https://github.com/onewkub">github.com/onewkub</a>
       <div style={{ height: 36 }}></div>
-      <img style={{ width: 120, margin: '0 auto' }} src={facebookLogo} />
+      <img alt="fb-log" style={{ width: 120, margin: '0 auto' }} src={facebookLogo} />
       <a href="https://facebook.com/onewkub">facebook.com/onewkub</a>
     </div>
   )

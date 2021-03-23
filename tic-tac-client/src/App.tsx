@@ -6,6 +6,9 @@ import { changeGameState } from 'store/action/GameStateAction'
 import { EGameState } from 'store/reducers/GameState'
 import GameRecord from 'components/gameRecord'
 import About from 'components/about'
+import Game from 'components/game'
+import CreateGame from 'components/createGame'
+import JoinGame from 'components/joinGame'
 
 interface IProps {
   state: EGameState
@@ -20,6 +23,9 @@ function App(props: IProps) {
     <div className="App">
       <div className="game-panel">
         {state === EGameState.main_menu && <MainMenu />}
+        {state === EGameState.game && <Game />}
+        {state === EGameState.create && <CreateGame />}
+        {state === EGameState.join && <JoinGame />}
         {state === EGameState.record && <GameRecord />}
         {state === EGameState.about && <About />}
       </div>

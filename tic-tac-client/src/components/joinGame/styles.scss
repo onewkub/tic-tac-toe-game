@@ -1,0 +1,29 @@
+.join-game-panel {
+  display: flex;
+  flex-direction: column;
+  .txt-input {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    label {
+      font-weight: bold;
+      margin: 0 0.6rem 0.4rem 0;
+      font-size: 1.2rem;
+    }
+    input {
+      height: 2rem;
+      font-size: 1.5rem;
+    }
+  }
+  .join-btn {
+    height: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+.waiting-room {
+  display: flex;
+  flex-direction: column;
+}

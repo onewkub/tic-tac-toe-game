@@ -21,7 +21,7 @@ function MainMenu() {
       </div>
       <div
         className="main-menu-btn"
-        onClick={() => handleOnClick(EGameState.record)}
+        onClick={() => handleOnClick(EGameState.join)}
       >
         Join Game
       </div>
@@ -35,7 +35,7 @@ function MainMenu() {
         className="main-menu-btn"
         onClick={() => handleOnClick(EGameState.about)}
       >
-        About
+        About Me
       </div>
     </div>
   )
