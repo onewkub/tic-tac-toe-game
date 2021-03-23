@@ -1,0 +1,12 @@
+.navigator {
+  text-align: left;
+  width: 100%;
+  // padding: 1rem;
+  // height: 2rem;
+  .back-link {
+    cursor: pointer;
+    &:hover {
+      color: #ffc93c;
+    }
+  }
+}

@@ -1,0 +1,61 @@
+@import 'variable.scss';
+$id-color: #ffc93c;
+$create-color: #dbf6e9;
+$btn-color: #9ddfd3;
+$btn-hover-color: #67ddc7;
+$btn-action-color: #31326f;
+$btn-action-hover-color: #4d4e88;
+
+.game-record {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+
+  .action {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    .action-page {
+      padding: 1rem;
+    }
+    .action-btn {
+      padding: 1rem;
+      color: $text-color;
+      background-color: $btn-action-color;
+      &:hover {
+        background-color: $btn-action-hover-color;
+        cursor: pointer;
+      }
+    }
+  }
+  .record-list {
+    height: 80%;
+  }
+  .record-item {
+    display: flex;
+    padding: 0.4rem;
+    justify-content: center;
+    .record-id {
+      padding: 1rem;
+      color: black;
+
+      background-color: $id-color;
+    }
+    .record-time {
+      padding: 1rem;
+      color: black;
+      background-color: $create-color;
+    }
+    .record-watch-btn {
+      padding: 1rem;
+      color: black;
+      background-color: $btn-color;
+      &:hover {
+        background-color: $btn-hover-color;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+@import 'variable.scss';
+.about {
+  display: flex;
+  flex-direction: column;
+  a {
+    color: $text-color;
+    text-decoration: none;
+    &:hover {
+      color: rgb(153, 224, 207);
+    }
+  }
+}

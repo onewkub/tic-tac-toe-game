@@ -1,0 +1,19 @@
+@import 'variable.scss';
+.App {
+  background-color: $base-color;
+  color: $text-color;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-panel {
+  background-color: $secondary-color;
+  width: 30rem;
+  height: 40rem;
+  padding: 1.25rem;
+  border: solid 0.3rem $text-color;
+}
+
