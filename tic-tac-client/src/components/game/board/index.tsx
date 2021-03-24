@@ -1,4 +1,5 @@
 import { makeMove } from 'lib/gameManager'
+import { useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { RootState } from 'store/reducers'
 import './styles.scss'
@@ -63,8 +64,17 @@ function Table(props: {
   )
 }
 
-function Board(props: { board: [][]; readOnly?: boolean }) {
-  const { board, readOnly = false } = props
+interface IPropsBoard {
+  board: string[][]
+  readOnly?: boolean
+  turn: number
+}
+
+function Board(props: IPropsBoard) {
+  const { board, readOnly = false, turn } = props
+  useEffect(() => {
+    // console.log('update Board')
+  }, [board, turn])
   return (
     <div className="board">
       <Table readOnly={readOnly} board={board} />
@@ -75,5 +85,6 @@ function Board(props: { board: [][]; readOnly?: boolean }) {
 const mapStateToProps = (rootState: RootState) => ({
   id: rootState.GameManagerReducer.id,
   board: rootState.GameManagerReducer.board,
+  turn: rootState.GameManagerReducer.turn,
 })
 export default connect(mapStateToProps)(Board)

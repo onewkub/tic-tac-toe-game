@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { setGame } from 'store/action/GameManagerAction'
 import { changeGameState } from 'store/action/GameStateAction'
-import { EGameState, initialState } from 'store/reducers/GameState'
+import { EGameState } from 'store/reducers/GameState'
 import './styles.scss'
 
 function MainMenu() {
@@ -9,7 +8,7 @@ function MainMenu() {
 
   const handleOnClick = (state: EGameState) => {
     dispatch(changeGameState(state))
-    dispatch(setGame(initialState))
+    // dispatch(setGame(initialState))
   }
 
   return (

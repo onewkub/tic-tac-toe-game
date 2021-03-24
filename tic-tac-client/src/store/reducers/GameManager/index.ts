@@ -2,7 +2,7 @@ import { SET_GAME, SET_GAME_ID } from 'store/action/GameManagerAction'
 
 interface IState {
   id: string
-  board: any
+  board: string[][]
   whoTurn: string
   turn: number
   whatYouAre: string
@@ -16,7 +16,7 @@ interface IAction {
   payload: any
 }
 
-const initialState = {
+export const initialState = {
   id: '',
   board: [
     ['', '', ''],

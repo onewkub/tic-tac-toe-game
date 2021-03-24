@@ -1,19 +1,85 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IGameRecord } from 'store/reducers/GameRecordList'
+// import store from 'store'
 import './styles.scss'
+import { setGame } from 'store/action/GameManagerAction'
+import { connect } from 'react-redux'
+import { RootState } from 'store/reducers'
+// import { useForceUpdate } from 'lib/foreUpdate'
 
 interface IProps {
   gameRecords: IGameRecord[]
+  board: string[][]
+  setGame: (data: any) => any
 }
 
+let index = 0
+let timmerID: any
+
 function ControlPanel(props: IProps) {
-  const {} = props
+  const { board, gameRecords, setGame } = props
   const [speed, setSpeed] = useState<number>(0.5)
   const [play, setPlay] = useState<boolean>(false)
+  // const [index, setIndex] = useState<number>(0)
+  // const forceUpdate = useForceUpdate()
+
+  const setBoard = (step: IGameRecord) => {
+    // console.log(step)
+    // const board = store.getState().GameManagerReducer.board
+    const copy_board: string[][] = board
+    copy_board[step.position_x][step.position_y] =
+      step.turn % 2 === 0 ? 'O' : 'X'
+    // console.log(board)
+    // setIndex((prev) => 2)
+    // store.dispatch(setGame({ board }))
+    setGame({ board: copy_board, turn: step.turn })
+    index++
+  }
+
+  const popStep = () => {
+    index--
+    const previos_step = gameRecords[index]
+    const copy_board: string[][] = board
+    copy_board[previos_step.position_x][previos_step.position_y] = ''
+    setGame({ board: copy_board, turn: previos_step.turn - 1 })
+  }
+  useEffect(() => {
+    console.log('first init')
+    index = 0
+  }, [])
+  useEffect(() => {
+    // console.log(gameRecords)
+    // console.log('set up')
+    // console.log(play)
+    if (play) {
+      timmerID = setInterval(() => {
+        // console.log(`yeah ${Math.random()}`)
+        // console.log(index)
+        if (index >= gameRecords.length) {
+          console.log('replay is end')
+          setPlay(false)
+          return clearInterval(timmerID)
+        }
+        setBoard(gameRecords[index])
+        // setIndex(index + 1)
+
+        // forceUpdate()
+        // console.log(speed * 1000)
+      }, 3000 * speed)
+    } else {
+      clearInterval(timmerID)
+    }
+    return () => {
+      // console.log('dismouth component')
+      clearInterval(timmerID)
+    }
+    // eslint-disable-next-line
+  }, [speed, play])
 
   const handleOnChangeSpeed = (event: any) => {
     // console.log(event.target.value)
     const value = event.target.value
+    // setPlay(false)
     setSpeed(value)
   }
   const handleOnClickPlay = () => {
@@ -21,20 +87,25 @@ function ControlPanel(props: IProps) {
   }
 
   const handleOnClickNext = () => {
-    console.log('click next')
+    setPlay(false)
+    setBoard(gameRecords[index])
   }
   const handleOnClickBack = () => {
-    console.log('click back')
+    if (index > 0) {
+      setPlay(false)
+      popStep()
+    }
   }
 
   return (
     <div className="control-panel">
+      <span>Status: {play ? 'Playing' : 'Stop'}</span>
       <div className="control-slider">
         <input
           onChange={handleOnChangeSpeed}
           step={0.05}
           type="range"
-          min={0}
+          min={0.1}
           value={speed}
           max={1}
         />
@@ -54,8 +125,8 @@ function ControlPanel(props: IProps) {
   )
 }
 
-// const mapStateToProps = (rootState: RootState) => ({
-//   gameRecords: rootState.GameRecordReducer.gameRecords,
-// })
+const mapStateToProps = (rootState: RootState) => ({
+  board: rootState.GameManagerReducer.board,
+})
 
-export default ControlPanel
+export default connect(mapStateToProps, { setGame })(ControlPanel)

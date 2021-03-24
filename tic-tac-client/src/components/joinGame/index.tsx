@@ -57,7 +57,7 @@ function JoinGame() {
             <input
               value={form.inviteCode}
               onChange={(e) => handleOnChange(e.target.value, 'inviteCode')}
-              placeholder="Please insert table dimension"
+              placeholder="Please insert your invite code"
             />
             {validator.message('invite code', form.inviteCode, 'required')}
           </div>

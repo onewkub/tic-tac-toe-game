@@ -24,14 +24,14 @@ export const fetchGameFailure = (payload: Error) => ({
 
 export function fetchGame(page: number) {
   return async (dispatch: any) => {
-    console.log('fetch Data')
+    // console.log('fetch Data')
     dispatch(fetchGameBegin())
     try {
       const res = await httpRequest.get<IGame[]>('/game', {
         params: { page, take: 4 },
       })
       const count = await httpRequest.get<number>('/game-count')
-      console.log(res.data)
+      // console.log(res.data)
       dispatch(fetchGameSuccess({ data: res.data, count: count.data }))
     } catch (error) {
       dispatch(fetchGameFailure(error))

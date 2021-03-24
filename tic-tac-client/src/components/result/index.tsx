@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
 import { changeGameState } from 'store/action/GameStateAction'
 import { RootState } from 'store/reducers'
-import { EGameState, initialState } from 'store/reducers/GameState'
+import { EGameState } from 'store/reducers/GameState'
 import Board from 'components/game/board'
 import { setGame } from 'store/action/GameManagerAction'
+import { initialState } from 'store/reducers/GameManager'
 import './styles.scss'
 
 interface IProps {

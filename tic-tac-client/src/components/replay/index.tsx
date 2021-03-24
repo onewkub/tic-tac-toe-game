@@ -22,7 +22,7 @@ function Replay(props: IProps) {
   return (
     <div className="replay-panel">
       <BackNavigator backTo={EGameState.record} />
-      <div style={{ height: 20 }} />
+      <div style={{ height: 10 }} />
       <Board readOnly />
       <ControlPanel gameRecords={gameRecords} />
     </div>

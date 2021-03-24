@@ -10,6 +10,9 @@ import dateformat from 'dateformat'
 import { useEffect, useState } from 'react'
 import { EGameState } from 'store/reducers/GameState'
 import Loading from 'components/Loading'
+import { setGame } from 'store/action/GameManagerAction'
+import { genBoard } from 'lib/createBoard'
+
 
 interface IProps {
   games: IGame[]
@@ -19,6 +22,7 @@ interface IProps {
   fetchGame: (page: number) => Promise<void>
   changeGameState: (state: EGameState) => any
   fetchGameRecord: (id: string) => Promise<void>
+  setGame: (data: any) => any
 }
 
 function GameRecord(props: IProps) {
@@ -29,10 +33,12 @@ function GameRecord(props: IProps) {
     fetchGame,
     changeGameState,
     fetchGameRecord,
+    setGame,
   } = props
 
   const [page, setPage] = useState<number>(1)
 
+  
   const handleOnNext = () => {
     if (page < Math.ceil(total / 4)) {
       // console.log(Math.ceil(total / 4))
@@ -46,10 +52,10 @@ function GameRecord(props: IProps) {
     }
   }
 
-  const handleOnWatch = (gameID: string) => {
-    console.log('on watch')
+  const handleOnWatch = (gameID: string, dim: number) => {
+    // console.log('on watch')
     fetchGameRecord(gameID)
-
+    setGame({ board: genBoard(dim) })
     changeGameState(EGameState.replay)
   }
 
@@ -78,7 +84,7 @@ function GameRecord(props: IProps) {
             </div>
             <div
               className="record-watch-btn"
-              onClick={() => handleOnWatch(game.id)}
+              onClick={() => handleOnWatch(game.id, game.dimension)}
             >
               ⌛ watch
             </div>
@@ -109,4 +115,5 @@ export default connect(mapStateToProps, {
   fetchGame,
   changeGameState,
   fetchGameRecord,
+  setGame,
 })(GameRecord)

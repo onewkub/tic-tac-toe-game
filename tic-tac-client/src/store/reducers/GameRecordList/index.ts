@@ -7,6 +7,8 @@ import {
 export interface IGameRecord {
   id: number
   turn: number
+  position_x: number
+  position_y: number
   player: string
   createAt: Date
 }
@@ -34,7 +36,7 @@ function GameRecordReducer(state: IState = initialState, action: IAction) {
     case FETCH_GAME_RECORD_BEGIN:
       return { ...state, loading: true, error: null }
     case FETCH_GAME_RECORD_SUCESS:
-      return { ...state, loading: false, games: payload, error: null }
+      return { ...state, loading: false, gameRecords: payload, error: null }
     case FETCH_GAME_RECORD_FAILURE:
       return { ...state, loading: false, error: payload }
     default:
