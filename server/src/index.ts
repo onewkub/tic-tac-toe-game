@@ -4,13 +4,13 @@ import { hasWinner } from './services/checkWinner'
 import { genRoom, IGameRoom } from './services/createRoom'
 import router from './router'
 import { saveGameRecord } from './services/saveGameRecord'
-
-const app = express()
-
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+import cors from 'cors'
 
 const PORT = process.env.PORT || 3001
+const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cors())
 app.use('/api', router)
 
 app.use('/', (req, res) => {
@@ -44,7 +44,7 @@ io.on('connection', (client) => {
   client.on('create-game', async (data) => {
     // console.log(data)
     const { player_name, dim } = data
-    const gameRoom = genRoom(dim)
+    const gameRoom = genRoom(Number(dim))
     await client.join(gameRoom.id)
     gameRoom.players.player_1 = { name: player_name, socket_id: client.id }
     ROOMS.push(gameRoom)
@@ -133,6 +133,8 @@ io.on('connection', (client) => {
         room.gameRecord.push({
           turn: room.turn,
           player: room.turn % 2 !== 0 ? room.game.player_x : room.game.player_o,
+          position_x: pos_x,
+          position_y: pos_y,
           createAt: new Date(),
         })
         // console.log(room.board)
@@ -157,7 +159,7 @@ io.on('connection', (client) => {
           io.sockets.to(room.id).emit('game-end', 'End')
           await saveGameRecord(room)
           ROOMS.filter((element) => element.id !== room.id)
-        } else if (room.turn >= Math.pow(room.board.length, 2)) {
+        } else if (room.turn > Math.pow(room.board.length, 2)) {
           room.game.isDone = true
           room.game.result = `Draw`
           io.sockets.to(room.id).emit('notice', `Draw`)

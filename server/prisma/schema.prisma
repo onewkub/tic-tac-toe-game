@@ -23,10 +23,12 @@ model Game {
 }
 
 model GameRecord {
-  id       Int      @id @default(autoincrement())
-  turn     Int
-  player   String
-  gameID   Game     @relation(fields: [gameId], references: [id])
-  gameId   String
-  createAt DateTime
+  id         Int      @id @default(autoincrement())
+  turn       Int
+  player     String
+  position_x Int
+  position_y Int
+  gameID     Game     @relation(fields: [gameId], references: [id])
+  gameId     String
+  createAt   DateTime
 }

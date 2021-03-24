@@ -15,6 +15,8 @@ export interface IGameRoom {
 
 export interface IGameRecord {
   turn: number
+  position_x: number
+  position_y: number
   player: string
   createAt: Date
 }
