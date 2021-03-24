@@ -2,7 +2,7 @@
 // import GameManager from "observer/GameManager";
 import io from 'socket.io-client'
 import store from 'store'
-import { setGame } from 'store/action/GameAction'
+import { setGame } from 'store/action/GameManagerAction'
 import { changeGameState } from 'store/action/GameStateAction'
 import { EGameState } from 'store/reducers/GameState'
 
@@ -52,5 +52,5 @@ socket.on('game-update', (data: any) => {
 
 socket.on('game-end', (data: any) => {
   store.dispatch(changeGameState(EGameState.result))
-  socket.emit('leave-room', store.getState().GameReducer.id)
+  socket.emit('leave-room', store.getState().GameManagerReducer.id)
 })

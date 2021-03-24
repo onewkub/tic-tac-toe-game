@@ -102,7 +102,7 @@ function CreateGame(props: IProps) {
   )
 }
 const mapStateToProps = (rootState: RootState) => ({
-  inviteCode: rootState.GameReducer.id,
+  inviteCode: rootState.GameManagerReducer.id,
 })
 
 export default connect(mapStateToProps)(CreateGame)

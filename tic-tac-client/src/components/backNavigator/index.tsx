@@ -2,12 +2,15 @@ import './styles.scss'
 import { useDispatch } from 'react-redux'
 import { changeGameState } from 'store/action/GameStateAction'
 import { EGameState } from 'store/reducers/GameState'
-function BackNavigator() {
+interface IProps {
+  backTo?: EGameState
+}
+
+function BackNavigator(props: IProps) {
+  const { backTo = EGameState.main_menu } = props
   const dispatch = useDispatch()
 
-  const handleOnClickBack = () => [
-    dispatch(changeGameState(EGameState.main_menu)),
-  ]
+  const handleOnClickBack = () => [dispatch(changeGameState(backTo))]
   return (
     <div className="navigator">
       <div

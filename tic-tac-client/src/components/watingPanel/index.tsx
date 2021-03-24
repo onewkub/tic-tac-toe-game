@@ -26,7 +26,7 @@ function WattingPanel(props: IProps) {
 }
 
 const mapStateToProps = (rootState: RootState) => ({
-  notice: rootState.GameReducer.notice,
+  notice: rootState.GameManagerReducer.notice,
 })
 
 export default connect(mapStateToProps)(WattingPanel)

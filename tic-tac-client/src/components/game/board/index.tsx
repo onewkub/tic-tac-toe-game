@@ -14,7 +14,7 @@ interface IPropsSquare {
 function Square(props: IPropsSquare) {
   const { size, value, pos_x, pos_y, readOnly = false } = props
 
-  const room_id = useSelector((state: RootState) => state.GameReducer.id)
+  const room_id = useSelector((state: RootState) => state.GameManagerReducer.id)
   const handleOnClick = () => {
     // console.log(room_id, pos_x, pos_y)
     if (!readOnly) makeMove(room_id, pos_x, pos_y)
@@ -73,7 +73,7 @@ function Board(props: { board: [][]; readOnly?: boolean }) {
 }
 
 const mapStateToProps = (rootState: RootState) => ({
-  id: rootState.GameReducer.id,
-  board: rootState.GameReducer.board,
+  id: rootState.GameManagerReducer.id,
+  board: rootState.GameManagerReducer.board,
 })
 export default connect(mapStateToProps)(Board)

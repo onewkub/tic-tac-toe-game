@@ -30,11 +30,11 @@ function Game(props: IProps) {
 }
 
 const mapStateToProps = (rootState: RootState) => ({
-  yourName: rootState.GameReducer.yourName,
-  whoTurn: rootState.GameReducer.whoTurn,
-  turn: rootState.GameReducer.turn,
-  notice: rootState.GameReducer.notice,
-  whatYouAre: rootState.GameReducer.whatYouAre,
+  yourName: rootState.GameManagerReducer.yourName,
+  whoTurn: rootState.GameManagerReducer.whoTurn,
+  turn: rootState.GameManagerReducer.turn,
+  notice: rootState.GameManagerReducer.notice,
+  whatYouAre: rootState.GameManagerReducer.whatYouAre,
 })
 
 export default connect(mapStateToProps)(Game)

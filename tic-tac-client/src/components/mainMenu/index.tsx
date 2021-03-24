@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { setGame } from 'store/action/GameAction'
+import { setGame } from 'store/action/GameManagerAction'
 import { changeGameState } from 'store/action/GameStateAction'
 import { EGameState, initialState } from 'store/reducers/GameState'
 import './styles.scss'

@@ -1,14 +1,25 @@
-import { SET_GAME, SET_GAME_ID } from 'store/action/GameAction'
+import {
+  FETCH_GAME_BEGIN,
+  FETCH_GAME_FAILURE,
+  FETCH_GAME_SUCCESS,
+} from 'store/action/GameAction'
+import {} from 'store/action/GaneRecordAction'
+
+export interface IGame {
+  id: string
+  player_x: string
+  player_o: string
+  isDone: boolean
+  dimension: number
+  result: string
+  createAt: Date
+}
 
 interface IState {
-  id: string
-  board: any
-  whoTurn: string
-  turn: number
-  whatYouAre: string
-  yourName: string
-  // gameStatus: string
-  notice: string
+  games: IGame[]
+  total: number
+  loading: boolean
+  error: Error | null
 }
 
 interface IAction {
@@ -17,32 +28,30 @@ interface IAction {
 }
 
 const initialState = {
-  id: '',
-  board: [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', ''],
-  ],
-  whoTurn: '',
-  whatYouAre: '',
-  turn: 0,
-  yourName: '',
-  // gameStatus: '',
-  notice: '',
+  games: [],
+  total: 0,
+  loading: false,
+  error: null,
 }
 
-function GameReducer(state: IState = initialState, action: IAction) {
-  switch (action.type) {
-    case SET_GAME:
-      return { ...state, ...action.payload }
-    case SET_GAME_ID:
+function GameRecordReducer(state: IState = initialState, action: IAction) {
+  const { type, payload } = action
+  switch (type) {
+    case FETCH_GAME_BEGIN:
+      return { ...state, loading: true, error: null }
+    case FETCH_GAME_SUCCESS:
       return {
         ...state,
-        id: action.payload,
+        loading: false,
+        games: payload.data,
+        total: payload.count,
+        error: null,
       }
+    case FETCH_GAME_FAILURE:
+      return { ...state, loading: false, error: payload }
     default:
       return state
   }
 }
 
-export default GameReducer
+export default GameRecordReducer

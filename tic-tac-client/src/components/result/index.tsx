@@ -1,24 +1,28 @@
 import { connect } from 'react-redux'
 import { changeGameState } from 'store/action/GameStateAction'
 import { RootState } from 'store/reducers'
-import { EGameState } from 'store/reducers/GameState'
+import { EGameState, initialState } from 'store/reducers/GameState'
 import Board from 'components/game/board'
+import { setGame } from 'store/action/GameManagerAction'
 import './styles.scss'
 
 interface IProps {
   notice: string
   whatYouAre: string
   changeGameState: any
+  setGame: (data: any) => any
 }
 
 function Result(props: IProps) {
-  const { notice, changeGameState, whatYouAre } = props
+  const { notice, changeGameState, whatYouAre, setGame } = props
   const handleOnClick = () => {
     console.log('here')
+    setGame(initialState)
     changeGameState(EGameState.main_menu)
   }
   const handleOnClickToRecord = () => {
     changeGameState(EGameState.record)
+    setGame(initialState)
   }
 
   return (
@@ -46,8 +50,8 @@ function Result(props: IProps) {
 }
 
 const mapStateToProps = (rootState: RootState) => ({
-  notice: rootState.GameReducer.notice,
-  whatYouAre: rootState.GameReducer.whatYouAre,
+  notice: rootState.GameManagerReducer.notice,
+  whatYouAre: rootState.GameManagerReducer.whatYouAre,
 })
 
-export default connect(mapStateToProps, { changeGameState })(Result)
+export default connect(mapStateToProps, { changeGameState, setGame })(Result)

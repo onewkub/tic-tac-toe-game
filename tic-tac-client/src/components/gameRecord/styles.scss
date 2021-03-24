@@ -10,7 +10,7 @@ $btn-action-hover-color: #4d4e88;
   height: 100%;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
+  justify-content: center;
   align-items: center;
 
   .action {
@@ -32,23 +32,33 @@ $btn-action-hover-color: #4d4e88;
   }
   .record-list {
     height: 80%;
+    width: 100%;
   }
   .record-item {
+    width: 100%;
     display: flex;
     padding: 0.4rem;
-    justify-content: center;
+    // justify-content: center;
     .record-id {
+      display: flex;
+      width: 20%;
+      align-items: center;
+      justify-content: center;
       padding: 1rem;
       color: black;
-
       background-color: $id-color;
     }
-    .record-time {
+    .record-detail {
       padding: 1rem;
+      width: 60%;
       color: black;
       background-color: $create-color;
     }
     .record-watch-btn {
+      width: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 1rem;
       color: black;
       background-color: $btn-color;

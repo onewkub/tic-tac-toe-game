@@ -10,6 +10,7 @@ import Game from 'components/game'
 import CreateGame from 'components/createGame'
 import JoinGame from 'components/joinGame'
 import Result from 'components/result'
+import Replay from 'components/replay'
 
 interface IProps {
   state: EGameState
@@ -27,6 +28,7 @@ function App(props: IProps) {
         {state === EGameState.main_menu && <MainMenu />}
         {state === EGameState.game && <Game />}
         {state === EGameState.result && <Result />}
+        {state === EGameState.replay && <Replay />}
         {state === EGameState.create && <CreateGame />}
         {state === EGameState.join && <JoinGame />}
         {state === EGameState.record && <GameRecord />}
