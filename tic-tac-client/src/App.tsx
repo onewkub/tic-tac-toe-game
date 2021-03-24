@@ -9,6 +9,7 @@ import About from 'components/about'
 import Game from 'components/game'
 import CreateGame from 'components/createGame'
 import JoinGame from 'components/joinGame'
+import Result from 'components/result'
 
 interface IProps {
   state: EGameState
@@ -17,6 +18,7 @@ interface IProps {
 }
 
 function App(props: IProps) {
+  // const App = observer((props: IProps) => {
   const { state } = props
 
   return (
@@ -24,6 +26,7 @@ function App(props: IProps) {
       <div className="game-panel">
         {state === EGameState.main_menu && <MainMenu />}
         {state === EGameState.game && <Game />}
+        {state === EGameState.result && <Result />}
         {state === EGameState.create && <CreateGame />}
         {state === EGameState.join && <JoinGame />}
         {state === EGameState.record && <GameRecord />}
@@ -34,9 +37,9 @@ function App(props: IProps) {
 }
 
 const mapStateToProps = (rootState: RootState) => ({
-  state: rootState.GameReducer.game_state,
-  loading: rootState.GameReducer.loading,
-  error: rootState.GameReducer.error,
+  state: rootState.GameStateReducer.game_state,
+  loading: rootState.GameStateReducer.loading,
+  error: rootState.GameStateReducer.error,
 })
 
 export default connect(mapStateToProps, { changeGameState })(App)

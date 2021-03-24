@@ -1,14 +1,17 @@
 import BackNavigator from 'components/backNavigator'
-import React, { useState } from 'react'
-import { ClimbingBoxLoader } from 'react-spinners'
+import WaitingPanel from 'components/watingPanel'
+import { joinGame } from 'lib/gameManager'
+import { useState } from 'react'
+import { validator } from 'lib/validator'
 import './styles.scss'
+import { useForceUpdate } from 'lib/foreUpdate'
 interface IForm {
   name: string
   inviteCode: string
 }
 
 function JoinGame() {
-  const [form, setForm] = useState<IForm>({ name: 'player', inviteCode: '' })
+  const [form, setForm] = useState<IForm>({ name: 'player_2', inviteCode: '' })
 
   const [hasJoin, setHasJoin] = useState<boolean>(false)
 
@@ -17,15 +20,20 @@ function JoinGame() {
       case 'name':
         return setForm((prev) => ({ ...prev, name: value }))
       case 'inviteCode':
-        return setForm((prev) => ({ ...prev, dim: value }))
+        return setForm((prev) => ({ ...prev, inviteCode: value }))
       default:
         return
     }
   }
-
+  const forceUpdate = useForceUpdate()
   const handleOnSumbit = () => {
-    console.log(form)
-    setHasJoin(true)
+    if (validator.allValid()) {
+      joinGame(form.name, form.inviteCode)
+      setHasJoin(true)
+    } else {
+      validator.showMessages()
+      forceUpdate()
+    }
   }
 
   return (
@@ -42,6 +50,7 @@ function JoinGame() {
               placeholder="please insert your name"
               required
             />
+            {validator.message('name', form.name, 'required')}
           </div>
           <div className="txt-input">
             <label>Invite Code</label>
@@ -50,6 +59,7 @@ function JoinGame() {
               onChange={(e) => handleOnChange(e.target.value, 'inviteCode')}
               placeholder="Please insert table dimension"
             />
+            {validator.message('invite code', form.inviteCode, 'required')}
           </div>
           <button onClick={handleOnSumbit} className="join-btn">
             JOIN ROOM
@@ -58,17 +68,7 @@ function JoinGame() {
       )}
       {hasJoin && (
         <div className="waiting-room">
-          <div
-            style={{
-              height: 300,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <ClimbingBoxLoader color="white" size={30} />
-          </div>
-          <h3>Waiting for your opponent</h3>
+          <WaitingPanel />
         </div>
       )}
     </>

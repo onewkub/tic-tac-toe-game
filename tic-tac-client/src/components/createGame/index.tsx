@@ -1,21 +1,28 @@
 import { useState } from 'react'
-import { ClimbingBoxLoader } from 'react-spinners'
 import Clipboard from 'clipboard'
 import './styles.scss'
 import BackNavigator from 'components/backNavigator'
+import { createGame } from 'lib/gameManager'
+import { connect } from 'react-redux'
+import { RootState } from 'store/reducers'
+import { validator } from 'lib/validator'
+import { useForceUpdate } from 'lib/foreUpdate'
+import WatingPanel from 'components/watingPanel'
 
 interface IForm {
   name: string
   dim: number
 }
 new Clipboard('.copy-clipboard-btn')
+interface IProps {
+  inviteCode: string
+}
 
-function CreateGame() {
-  const [form, setForm] = useState<IForm>({ name: 'player', dim: 3 })
+function CreateGame(props: IProps) {
+  const [form, setForm] = useState<IForm>({ name: 'player_1', dim: 3 })
 
   const [hasCreate, setHasCreate] = useState<boolean>(false)
-
-  const [inviteCode] = useState<string>('asdgasfg')
+  const { inviteCode } = props
 
   const handleOnChange = (value: any, type: string) => {
     switch (type) {
@@ -27,10 +34,16 @@ function CreateGame() {
         return
     }
   }
+  const forceUpdate = useForceUpdate()
 
-  const handleOnSumbit = () => {
-    console.log(form)
-    setHasCreate(true)
+  const handleOnSumbit = async () => {
+    if (validator.allValid()) {
+      createGame(form.name, form.dim)
+      setHasCreate(true)
+    } else {
+      validator.showMessages()
+      forceUpdate()
+    }
   }
 
   const handleOnCopyToClipboard = () => {}
@@ -47,8 +60,8 @@ function CreateGame() {
               value={form.name}
               onChange={(e) => handleOnChange(e.target.value, 'name')}
               placeholder="please insert your name"
-              required
             />
+            {validator.message('invite code', form.name, 'required')}
           </div>
           <div className="txt-input">
             <label>Table Dimension</label>
@@ -58,6 +71,7 @@ function CreateGame() {
               type="number"
               placeholder="Please insert table dimension"
             />
+            {validator.message('dimension', form.dim, 'required')}
           </div>
           <button onClick={handleOnSumbit} className="create-btn">
             Create ROOM
@@ -66,17 +80,8 @@ function CreateGame() {
       )}
       {hasCreate && (
         <div className="create-game-panel-invite-code">
-          <div
-            style={{
-              height: 300,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <ClimbingBoxLoader color="white" size={30} />
-          </div>
-          <h3>Waiting for your opponent</h3>
+          <WatingPanel />
+          <h4>Send code below to your friend</h4>
           <div className="invite-code-field">
             <input
               onClick={handleOnCopyToClipboard}
@@ -96,5 +101,8 @@ function CreateGame() {
     </>
   )
 }
+const mapStateToProps = (rootState: RootState) => ({
+  inviteCode: rootState.GameReducer.id,
+})
 
-export default CreateGame
+export default connect(mapStateToProps)(CreateGame)

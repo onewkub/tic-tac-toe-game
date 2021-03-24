@@ -15,12 +15,13 @@ export enum EGameState {
   main_menu,
   game,
   create,
+  result,
   join,
   record,
   about,
 }
 
-const initialState = {
+export const initialState = {
   loading: false,
   game_state: EGameState.main_menu,
   error: null,

@@ -1,3 +1,5 @@
+@import 'variable.scss';
+
 .create-game-panel {
   display: flex;
   flex-direction: column;
@@ -20,6 +22,16 @@
     height: 3rem;
     font-weight: bold;
     text-transform: uppercase;
+    color: $text-color;
+    background-color: $btn-color;
+    border: none;
+    box-shadow: none;
+    &:hover {
+      background-color: $btn-color-hover;
+    }
+    &:active {
+      background-color: $btn-color-click;
+    }
   }
 }
 
