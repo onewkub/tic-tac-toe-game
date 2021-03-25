@@ -1,6 +1,14 @@
 import { combineReducers } from 'redux'
-import GameReducer from './GameState'
-const reducers = combineReducers({ GameReducer })
+import GameStateReducer from './GameState'
+import GameManagerReducer from './GameManager'
+import GameReducer from './Game'
+import GameRecordReducer from './GameRecordList'
+const reducers = combineReducers({
+  GameStateReducer,
+  GameManagerReducer,
+  GameReducer,
+  GameRecordReducer,
+})
 
 export type RootState = ReturnType<typeof reducers>
 

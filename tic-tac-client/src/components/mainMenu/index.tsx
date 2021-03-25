@@ -8,6 +8,7 @@ function MainMenu() {
 
   const handleOnClick = (state: EGameState) => {
     dispatch(changeGameState(state))
+    // dispatch(setGame(initialState))
   }
 
   return (

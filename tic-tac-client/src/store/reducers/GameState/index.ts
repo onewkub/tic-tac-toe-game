@@ -14,7 +14,9 @@ interface IAction {
 export enum EGameState {
   main_menu,
   game,
+  replay,
   create,
+  result,
   join,
   record,
   about,
@@ -26,7 +28,7 @@ const initialState = {
   error: null,
 }
 
-function GameReducer(state: IState = initialState, action: IAction) {
+function GameState(state: IState = initialState, action: IAction) {
   const { type, payload } = action
 
   switch (type) {
@@ -40,4 +42,4 @@ function GameReducer(state: IState = initialState, action: IAction) {
   }
 }
 
-export default GameReducer
+export default GameState

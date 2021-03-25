@@ -1,0 +1,36 @@
+@import 'variable.scss';
+.control-panel {
+  margin: 1rem 0;
+  .control-slider {
+    padding: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    input {
+      width: 80%;
+      margin: 0;
+      margin-left: 0.5rem;
+    }
+  }
+  .control-btn-group {
+    display: flex;
+    justify-content: center;
+    .control-btn {
+      margin: 0.5rem 0.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 6rem;
+      height: 4rem;
+      color: $text-color;
+      background-color: $btn-color;
+      &:hover {
+        background-color: $btn-color-hover;
+        cursor: pointer;
+      }
+      &:active {
+        background-color: $btn-color-click;
+      }
+    }
+  }
+}
