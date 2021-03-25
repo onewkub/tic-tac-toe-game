@@ -1,9 +1,8 @@
-# tic-tac-toe
-
+# Tic-Tac-Toe-Funny
 
 ## Live Demo
 
-[Tic Tac Toe Funny](www.google.com)
+Link:  [https://tic-tac-toe-funny.herokuapp.com/](https://tic-tac-toe-funny.herokuapp.com/)
 
 ## Stack
 

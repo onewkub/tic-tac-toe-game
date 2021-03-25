@@ -34,6 +34,7 @@ export function fetchGame(page: number) {
       // console.log(res.data)
       dispatch(fetchGameSuccess({ data: res.data, count: count.data }))
     } catch (error) {
+      console.error(error)
       dispatch(fetchGameFailure(error))
     }
   }

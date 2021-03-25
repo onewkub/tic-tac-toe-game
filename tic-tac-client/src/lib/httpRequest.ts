@@ -56,8 +56,10 @@ class HttpRequest {
     return this.axiosInstance.delete<type>(methodName, config)
   }
 }
+// const PORT = process.env.PORT
 
-const httpRequest = new HttpRequest('http://localhost:3001/api/')
-
+const httpRequest = new HttpRequest(
+  process.env.REACT_APP_API_URL || 'http://localhost:3001/api',
+)
 
 export default httpRequest
