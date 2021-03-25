@@ -32,7 +32,7 @@ const io = new Server(http, {
 const SERVER_STATE = {
   totalConnections: 0,
 }
-const ROOMS: IGameRoom[] = []
+let ROOMS: IGameRoom[] = []
 
 io.on('connection', (client) => {
   SERVER_STATE.totalConnections++
@@ -235,7 +235,7 @@ io.on('connection', (client) => {
             client.emit('game-end', 'End')
           }
           await saveGameRecord(room)
-          ROOMS.filter((element) => element.id !== room.id)
+          ROOMS = ROOMS.filter((element) => element.id !== room.id)
         }
       } else {
         // console.log('it not your turn calm down')
