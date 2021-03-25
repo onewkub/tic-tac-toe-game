@@ -9,6 +9,7 @@ export interface IGameRoom {
   whoNextTurnSocketID: string
   turn: number
   board: string[][]
+  online: boolean
   gameRecord: IGameRecord[]
   game: IGame
 }
@@ -40,7 +41,7 @@ interface IPlayer {
   name: string
 }
 
-export function genRoom(dim: number, n: number = 5): IGameRoom {
+export function genRoom(dim: number, online: boolean = true,n: number = 5): IGameRoom {
   const id = nanoid(n)
 
   return {
@@ -53,6 +54,7 @@ export function genRoom(dim: number, n: number = 5): IGameRoom {
     whoNextTurnSocketID: '',
     turn: 0,
     gameRecord: [],
+    online: online,
     game: {
       id: id,
       player_x: '',

@@ -44,8 +44,13 @@ function ControlPanel(props: IProps) {
     setGame({ board: copy_board, turn: previos_step.turn - 1 })
   }
   useEffect(() => {
-    console.log('first init')
-    index = 0
+    // console.log('first init')
+    // index = 0
+    return () => {
+      index = 0
+
+      // console.log('unMount')
+    }
   }, [])
   useEffect(() => {
     // console.log(gameRecords)
@@ -88,7 +93,9 @@ function ControlPanel(props: IProps) {
 
   const handleOnClickNext = () => {
     setPlay(false)
-    setBoard(gameRecords[index])
+    if (index < gameRecords.length) {
+      setBoard(gameRecords[index])
+    }
   }
   const handleOnClickBack = () => {
     if (index > 0) {
@@ -101,6 +108,7 @@ function ControlPanel(props: IProps) {
     <div className="control-panel">
       <span>Status: {play ? 'Playing' : 'Stop'}</span>
       <div className="control-slider">
+        <span>Speed: </span>
         <input
           onChange={handleOnChangeSpeed}
           step={0.05}

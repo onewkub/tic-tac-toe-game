@@ -2,9 +2,14 @@
 .control-panel {
   margin: 1rem 0;
   .control-slider {
-    padding: 1rem;
+    padding: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     input {
       width: 80%;
+      margin: 0;
+      margin-left: 0.5rem;
     }
   }
   .control-btn-group {

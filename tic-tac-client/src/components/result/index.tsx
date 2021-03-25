@@ -30,7 +30,8 @@ function Result(props: IProps) {
     <div className="result">
       <Board readOnly={true} />
       <h1 className="result-title">
-        {notice}({whatYouAre})
+        {notice}
+        {whatYouAre ? `(${whatYouAre})` : ''}
       </h1>
       <label>Your game play will be record to database.</label>
       <label>

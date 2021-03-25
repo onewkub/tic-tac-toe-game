@@ -12,6 +12,7 @@ import WatingPanel from 'components/watingPanel'
 interface IForm {
   name: string
   dim: number
+  online: boolean
 }
 new Clipboard('.copy-clipboard-btn')
 interface IProps {
@@ -19,17 +20,28 @@ interface IProps {
 }
 
 function CreateGame(props: IProps) {
-  const [form, setForm] = useState<IForm>({ name: 'player_1', dim: 3 })
+  const [form, setForm] = useState<IForm>({
+    name: 'player_1',
+    dim: 3,
+    online: true,
+  })
 
   const [hasCreate, setHasCreate] = useState<boolean>(false)
   const { inviteCode } = props
 
   const handleOnChange = (value: any, type: string) => {
+    console.log(value)
     switch (type) {
       case 'name':
         return setForm((prev) => ({ ...prev, name: value }))
       case 'dim':
-        return setForm((prev) => ({ ...prev, dim: value }))
+        return setForm((prev) => ({ ...prev, dim: Number(value) }))
+      case 'online':
+        // console.log(value, type)
+        return setForm((prev) => ({
+          ...prev,
+          online: value === 'true' ? true : false,
+        }))
       default:
         return
     }
@@ -38,7 +50,8 @@ function CreateGame(props: IProps) {
 
   const handleOnSumbit = async () => {
     if (validator.allValid()) {
-      createGame(form.name, form.dim)
+      console.log(form)
+      createGame(form.name, form.dim, form.online)
       setHasCreate(true)
     } else {
       validator.showMessages()
@@ -46,14 +59,30 @@ function CreateGame(props: IProps) {
     }
   }
 
-  const handleOnCopyToClipboard = () => {}
-
   return (
     <>
       <BackNavigator />
       {!hasCreate && (
         <div className="create-game-panel">
           <h3>Create Game</h3>
+          <div>
+            <label> Online</label>
+            <input
+              type="radio"
+              name="single"
+              onChange={(e) => handleOnChange(e.target.value, 'online')}
+              value="true"
+              checked={form.online}
+            />
+            <label> Single Play</label>
+            <input
+              type="radio"
+              name="single"
+              onChange={(e) => handleOnChange(e.target.value, 'online')}
+              value="false"
+              checked={!form.online}
+            />
+          </div>
           <div className="txt-input">
             <label>Player Name</label>
             <input
@@ -81,21 +110,20 @@ function CreateGame(props: IProps) {
       {hasCreate && (
         <div className="create-game-panel-invite-code">
           <WatingPanel />
-          <h4>Send code below to your friend</h4>
-          <div className="invite-code-field">
-            <input
-              onClick={handleOnCopyToClipboard}
-              id="invite-code"
-              readOnly
-              value={inviteCode}
-            />
-            <div
-              className="copy-clipboard-btn"
-              data-clipboard-text={inviteCode}
-            >
-              Copy
-            </div>
-          </div>
+          {form.online && (
+            <>
+              <h4>Send code below to your friend</h4>
+              <div className="invite-code-field">
+                <input id="invite-code" readOnly value={inviteCode} />
+                <div
+                  className="copy-clipboard-btn"
+                  data-clipboard-text={inviteCode}
+                >
+                  Copy
+                </div>
+              </div>
+            </>
+          )}
         </div>
       )}
     </>

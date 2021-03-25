@@ -8,8 +8,8 @@ import { EGameState } from 'store/reducers/GameState'
 
 export const socket = io.connect('http://localhost:3001')
 
-export function createGame(player_name: string, dim: number) {
-  socket.emit('create-game', { player_name, dim })
+export function createGame(player_name: string, dim: number, online: boolean) {
+  socket.emit('create-game', { player_name, dim, online })
   store.dispatch(setGame({ yourName: player_name }))
 }
 

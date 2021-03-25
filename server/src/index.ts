@@ -41,17 +41,70 @@ io.on('connection', (client) => {
     } has been connected to the game at ${new Date().toLocaleString()}.`,
   )
 
+  client.on('create-game-single', async (data) => {
+    console.log(data)
+  })
+
   client.on('create-game', async (data) => {
     // console.log(data)
-    const { player_name, dim } = data
-    const gameRoom = genRoom(Number(dim))
-    await client.join(gameRoom.id)
-    gameRoom.players.player_1 = { name: player_name, socket_id: client.id }
-    ROOMS.push(gameRoom)
-    // console.log(client.rooms)
-    // console.log(client.in(gameRoom.id))
-    client.emit('game-id', { id: gameRoom.id, board: gameRoom.board })
-    io.sockets.to(gameRoom.id).emit('notice', 'Waiting for your opponent.')
+    const { player_name, dim, online } = data
+    if (online) {
+      const gameRoom = genRoom(Number(dim))
+      await client.join(gameRoom.id)
+      gameRoom.players.player_1 = { name: player_name, socket_id: client.id }
+      ROOMS.push(gameRoom)
+      // console.log(client.rooms)
+      // console.log(client.in(gameRoom.id))
+      client.emit('game-id', { id: gameRoom.id, board: gameRoom.board })
+      io.sockets.to(gameRoom.id).emit('notice', 'Waiting for your opponent.')
+    } else {
+      console.log('create single player game')
+      client.emit('notice', 'You and Your friend are you ready? ⛳')
+      const gameRoom = genRoom(Number(dim), online)
+      await client.join(gameRoom.id)
+      gameRoom.players.player_1 = {
+        name: `${player_name}-1`,
+        socket_id: client.id,
+      }
+      gameRoom.players.player_2 = {
+        name: `${player_name}-2`,
+        socket_id: client.id,
+      }
+
+      gameRoom.game.player_x = gameRoom.players.player_1.name
+      gameRoom.game.player_o = gameRoom.players.player_2.name
+
+      gameRoom.whoTurn = gameRoom.game.player_x
+      gameRoom.whoTurnSocketID = gameRoom.players.player_1.socket_id
+
+      gameRoom.whoNextTurn = gameRoom.game.player_o
+      gameRoom.whoNextTurnSocketID = gameRoom.players.player_2.socket_id
+
+      ROOMS.push(gameRoom)
+
+      const count_down = 5
+
+      let timmer = count_down
+      const timerID = setInterval(() => {
+        timmer--
+        client.emit('notice', `Game Will start in ${timmer}`)
+        if (timmer === 0) {
+          clearInterval(timerID)
+          client.emit('notice', 'Fighting!!!💥')
+        }
+      }, 1000)
+      await new Promise((resolve) =>
+        setTimeout(resolve, (count_down + 1) * 1000),
+      )
+      const res = {
+        id: gameRoom.id,
+        board: gameRoom.board,
+        whoTurn: gameRoom.whoTurn,
+        turn: gameRoom.turn,
+      }
+
+      client.emit('game-start', res)
+    }
   })
 
   client.on('join-room', async (data) => {
@@ -154,17 +207,27 @@ io.on('connection', (client) => {
           // console.log(`${cur.name} Wins`)
           room.game.isDone = true
           room.game.result = `${cur.name} Win`
-          io.sockets.to(cur.socket_id).emit('notice', `You Win😎`)
-          io.sockets.to(room.whoTurnSocketID).emit('notice', `You Lose😅`)
-          io.sockets.to(room.id).emit('game-end', 'End')
+          if (room.online) {
+            io.sockets.to(cur.socket_id).emit('notice', `You Win😎`)
+            io.sockets.to(room.whoTurnSocketID).emit('notice', `You Lose😅`)
+            io.sockets.to(room.id).emit('game-end', 'End')
+          } else {
+            client.emit('notice', `${cur.name} Win😎`)
+            client.emit('game-end', 'End')
+          }
           await saveGameRecord(room)
           ROOMS.filter((element) => element.id !== room.id)
         } else if (room.turn > Math.pow(room.board.length, 2)) {
           room.game.isDone = true
           room.game.result = `Draw`
-          io.sockets.to(room.id).emit('notice', `Draw`)
-          // console.log('Draw')
-          io.sockets.to(room.id).emit('game-end', 'End')
+          if (room.online) {
+            client.emit('notice', `Draw`)
+            // console.log('Draw')
+            client.emit('game-end', 'End')
+          } else {
+            client.emit('notice', `Draw`)
+            client.emit('game-end', 'End')
+          }
           await saveGameRecord(room)
           ROOMS.filter((element) => element.id !== room.id)
         }
