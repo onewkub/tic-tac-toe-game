@@ -170,6 +170,9 @@ io.on('connection', (client) => {
         console.log('something went wrong.')
       }
     }
+    else{
+      client.emit('notice', 'Not Found The room⛄.')
+    }
   })
 
   client.on(
