@@ -71,12 +71,13 @@ function genBoard(dim: number) {
   // let rlt: any = Array(dim)
   // rlt.fill(new Array(dim), 0, dim)
   // // console.log(rlt)
-  let rlt: any[][] = []
+  const rlt: string[][] = new Array(dim)
   for (let i = 0; i < dim; i++) {
-    rlt[i] = []
-    for (let j = 0; j < dim; j++) {
-      rlt[i][j] = ''
-    }
+    rlt[i] = new Array(dim).fill('',0, dim)
+    // rlt[i] = []
+    // for (let j = 0; j < dim; j++) {
+    //   rlt[i][j] = ''
+    // }
   }
   return rlt
 }

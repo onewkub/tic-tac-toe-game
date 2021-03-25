@@ -17,7 +17,6 @@ interface IProps {
 function Result(props: IProps) {
   const { notice, changeGameState, whatYouAre, setGame } = props
   const handleOnClick = () => {
-    console.log('here')
     setGame(initialState)
     changeGameState(EGameState.main_menu)
   }

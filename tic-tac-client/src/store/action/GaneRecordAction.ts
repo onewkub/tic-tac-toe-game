@@ -27,6 +27,7 @@ export function fetchGameRecord(id: string) {
       })
       dispatch(fetchGameRecordSuccess(res.data))
     } catch (error) {
+      console.error(error)
       dispatch(fetchGameRecordFailure(error))
     }
   }

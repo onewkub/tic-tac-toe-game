@@ -42,6 +42,7 @@ io.on('connection', (client) => {
       client.id
     } has been connected to the game at ${new Date().toLocaleString()}.`,
   )
+  console.log(`Total Player: ${SERVER_STATE.totalConnections}`)
 
   client.on('create-game-single', async (data) => {
     console.log(data)
@@ -72,7 +73,7 @@ io.on('connection', (client) => {
         name: `${player_name}-O`,
         socket_id: client.id,
       }
-
+      gameRoom.turn = 1
       gameRoom.game.player_x = gameRoom.players.player_1.name
       gameRoom.game.player_o = gameRoom.players.player_2.name
 
@@ -110,7 +111,6 @@ io.on('connection', (client) => {
   })
 
   client.on('join-room', async (data) => {
-    // console.log(ROOMS)
     const { player_name, inviteCode } = data //invite code is room_id
     const room_id = inviteCode
     // console.log(inviteCode)
@@ -178,6 +178,9 @@ io.on('connection', (client) => {
       const { room_id, pos_x, pos_y } = data
       //check correct player to move on this room
       const room = ROOMS.find((room) => room.id === room_id)
+      // ROOMS.forEach((ele)=> console.log(ele))
+      // console.log(room_id)
+      // console.log(room)
       if (
         room &&
         client.id === room.whoTurnSocketID &&
@@ -193,18 +196,20 @@ io.on('connection', (client) => {
           createAt: new Date(),
         })
         // console.log(room.board)
+        // console.log(room.whoTurn)
         room.turn++
         const cur = { name: room.whoTurn, socket_id: room.whoTurnSocketID }
         room.whoTurn = room.whoNextTurn
         room.whoTurnSocketID = room.whoNextTurnSocketID
         room.whoNextTurn = cur.name
         room.whoNextTurnSocketID = cur.socket_id
-        io.sockets.emit('game-update', {
+        io.sockets.to(room.id).emit('game-update', {
           id: room.id,
           board: room.board,
           whoTurn: room.whoTurn,
           turn: room.turn,
         })
+        // console.log(cur)
         if (hasWinner(room.board, pos_x, pos_y)) {
           // console.log(`${cur.name} Wins`)
           room.game.isDone = true

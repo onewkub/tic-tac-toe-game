@@ -6,7 +6,8 @@ import { setGame } from 'store/action/GameManagerAction'
 import { changeGameState } from 'store/action/GameStateAction'
 import { EGameState } from 'store/reducers/GameState'
 
-export const socket = io.connect('http://localhost:3001')
+// const PORT = process.env.PORT || 3001
+export const socket = io.connect(process.env.REACT_APP_SERVER_URL || 'http://localhost:3001')
 
 export function createGame(player_name: string, dim: number, online: boolean) {
   socket.emit('create-game', { player_name, dim, online })
@@ -23,16 +24,16 @@ export function makeMove(room_id: string, pos_x: number, pos_y: number) {
 }
 
 socket.on('board-update', () => {
-  console.log('board-update')
+  // console.log('board-update')
 })
 
 socket.on('game-id', (data: any) => {
-  console.log(data)
+  // console.log(data)
   store.dispatch(setGame(data))
 })
 
 socket.on('notice', (notice: string) => {
-  console.log(notice)
+  // console.log(notice)
   store.dispatch(setGame({ notice }))
 })
 socket.on('you-are', (data: string) => {
@@ -46,7 +47,7 @@ socket.on('game-start', (data: any) => {
 })
 
 socket.on('game-update', (data: any) => {
-  console.log(data)
+  // console.log(data)
   store.dispatch(setGame(data))
 })
 
