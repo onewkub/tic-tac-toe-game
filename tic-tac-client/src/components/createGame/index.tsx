@@ -30,7 +30,7 @@ function CreateGame(props: IProps) {
   const { inviteCode } = props
 
   const handleOnChange = (value: any, type: string) => {
-    console.log(value)
+    // console.log(value)
     switch (type) {
       case 'name':
         return setForm((prev) => ({ ...prev, name: value }))
@@ -50,7 +50,7 @@ function CreateGame(props: IProps) {
 
   const handleOnSumbit = async () => {
     if (validator.allValid()) {
-      console.log(form)
+      // console.log(form)
       createGame(form.name, form.dim, form.online)
       setHasCreate(true)
     } else {
@@ -90,17 +90,16 @@ function CreateGame(props: IProps) {
               onChange={(e) => handleOnChange(e.target.value, 'name')}
               placeholder="please insert your name"
             />
-            {validator.message('invite code', form.name, 'required')}
+            {validator.message('name', form.name, 'required')}
           </div>
           <div className="txt-input">
             <label>Table Dimension</label>
             <input
               value={form.dim}
               onChange={(e) => handleOnChange(e.target.value, 'dim')}
-              type="number"
               placeholder="Please insert table dimension"
             />
-            {validator.message('dimension', form.dim, 'required')}
+            {validator.message('dimension', form.dim, 'required|integer|min:3,num')}
           </div>
           <button onClick={handleOnSumbit} className="create-btn">
             Create ROOM

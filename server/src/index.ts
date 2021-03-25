@@ -5,6 +5,7 @@ import { genRoom, IGameRoom } from './services/createRoom'
 import router from './router'
 import { saveGameRecord } from './services/saveGameRecord'
 import cors from 'cors'
+import path from 'path'
 
 const PORT = process.env.PORT || 3001
 const app = express()
@@ -13,8 +14,9 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 app.use('/api', router)
 
-app.use('/', (req, res) => {
-  res.send('this is tic tac toe server YEAH!!')
+app.use(express.static(path.join(__dirname, '../public')))
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/index.html'))
 })
 
 const http = app.listen(PORT, () => {
@@ -221,9 +223,8 @@ io.on('connection', (client) => {
           room.game.isDone = true
           room.game.result = `Draw`
           if (room.online) {
-            client.emit('notice', `Draw`)
-            // console.log('Draw')
-            client.emit('game-end', 'End')
+            io.sockets.to(room.id).emit('notice', `Draw`)
+            io.sockets.to(room.id).emit('game-end', 'End')
           } else {
             client.emit('notice', `Draw`)
             client.emit('game-end', 'End')
