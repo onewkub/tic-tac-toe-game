@@ -4,7 +4,7 @@ import { IGameRoom } from './createRoom'
 export async function saveGameRecord(room: IGameRoom) {
   try {
     await prisma.game.create({ data: room.game })
-    console.log(`Add ${room.id} game to data`)
+    console.log(`add ${room.id} game to database`)
     room.gameRecord.map(async (record) => {
       try {
         await prisma.gameRecord.create({

@@ -60,16 +60,16 @@ io.on('connection', (client) => {
       client.emit('game-id', { id: gameRoom.id, board: gameRoom.board })
       io.sockets.to(gameRoom.id).emit('notice', 'Waiting for your opponent.')
     } else {
-      console.log('create single player game')
       client.emit('notice', 'You and Your friend are you ready? ⛳')
       const gameRoom = genRoom(Number(dim), online)
+      console.log(`create single player game id:${gameRoom.id}`)
       await client.join(gameRoom.id)
       gameRoom.players.player_1 = {
-        name: `${player_name}-1`,
+        name: `${player_name}-X`,
         socket_id: client.id,
       }
       gameRoom.players.player_2 = {
-        name: `${player_name}-2`,
+        name: `${player_name}-O`,
         socket_id: client.id,
       }
 
