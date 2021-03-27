@@ -5,6 +5,7 @@
   "author": "Onewkub",
   "scripts": {
     "start": "ts-node ./src/index.ts",
+    "migrate": "prisma migrate dev --preview-feature",
     "dev": "nodemon dev"
   },
   "engines": {

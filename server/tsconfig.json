@@ -4,6 +4,7 @@
     "module": "commonjs",
     "rootDir": "./",
     "outDir": "./build",
+    "lib": ["esnext"],
     "esModuleInterop": true,
     "strict": true
   }
